@@ -12,13 +12,22 @@ protocol CriticsReusableViewDelegate {
     func reloadCollectionView(query: String)
 }
 
-class CriticsCollectionReusableView: UICollectionReusableView {
+class CriticsCollectionReusableView: UICollectionReusableView, UITextFieldDelegate {
     
     @IBOutlet weak var searchTextField: UITextField!
     
     var delegate: CriticsReusableViewDelegate?
     
     @IBAction func searchDidEndEdit(_ sender: UITextField) {
+        search()
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        search()
+        return false
+    }
+    
+    func search() {
         if searchTextField.text == "" {
             delegate?.reloadCollectionView(query: "all")
         } else {

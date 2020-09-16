@@ -16,6 +16,7 @@ class CriticsCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+//        criticsImage.image = nil
     }
     
 }

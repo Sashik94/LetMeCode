@@ -4,13 +4,14 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Reviewes View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ReviewesViewController" customModule="LetMeCode" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ReviewesViewController" id="BYZ-38-t0r" customClass="ReviewesViewController" customModule="LetMeCode" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -35,7 +36,7 @@
                                             <segment title="Critics"/>
                                         </segments>
                                         <connections>
-                                            <segue destination="R1V-HW-cVf" kind="presentation" animates="NO" modalPresentationStyle="fullScreen" id="48R-oj-c8P"/>
+                                            <action selector="transitionCriticsVC:" destination="BYZ-38-t0r" eventType="valueChanged" id="9JR-rY-uCG"/>
                                         </connections>
                                     </segmentedControl>
                                 </subviews>
@@ -158,6 +159,7 @@
                                                     <connections>
                                                         <action selector="searchDidEndEdit:" destination="Puk-Na-JAa" eventType="valueChanged" id="7vI-F5-f0a"/>
                                                         <action selector="searchDidEndEdit:" destination="Puk-Na-JAa" eventType="editingDidEnd" id="S4J-cj-FOF"/>
+                                                        <outlet property="delegate" destination="Puk-Na-JAa" id="gPJ-KX-1jG"/>
                                                     </connections>
                                                 </textField>
                                             </subviews>
@@ -179,6 +181,7 @@
                                                         <action selector="searchDidEndEdit:" destination="Puk-Na-JAa" eventType="editingChanged" id="FG0-Hi-PEh"/>
                                                         <action selector="searchDidEndEdit:" destination="Puk-Na-JAa" eventType="editingDidEnd" id="feP-R9-ToV"/>
                                                         <action selector="searchDidEndEdit:" destination="Puk-Na-JAa" eventType="valueChanged" id="sMM-xm-hj7"/>
+                                                        <outlet property="delegate" destination="Puk-Na-JAa" id="Y0d-Ej-hrR"/>
                                                     </connections>
                                                 </textField>
                                             </subviews>
@@ -224,6 +227,7 @@
                     </view>
                     <connections>
                         <outlet property="reviewesCollectionView" destination="hQp-F4-fsF" id="eX8-gO-lDr"/>
+                        <outlet property="reviewesSegmentedControl" destination="t2Y-mQ-Rsi" id="Yk2-C2-Fp8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -233,7 +237,7 @@
         <!--Critics View Controller-->
         <scene sceneID="3W8-VD-dEL">
             <objects>
-                <viewController id="R1V-HW-cVf" customClass="CriticsViewController" customModule="LetMeCode" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CriticsViewController" id="R1V-HW-cVf" customClass="CriticsViewController" customModule="LetMeCode" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Hl5-Th-rXW">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -258,7 +262,7 @@
                                             <segment title="Critics"/>
                                         </segments>
                                         <connections>
-                                            <segue destination="BYZ-38-t0r" kind="presentation" animates="NO" modalPresentationStyle="fullScreen" id="b15-UK-duc"/>
+                                            <action selector="transitionReviewesVC:" destination="R1V-HW-cVf" eventType="valueChanged" id="Qdq-TI-GyT"/>
                                         </connections>
                                     </segmentedControl>
                                 </subviews>
@@ -285,7 +289,7 @@
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CriticsCell" id="6NX-d0-C7o" customClass="CriticsCollectionViewCell" customModule="LetMeCode" customModuleProvider="target">
                                         <rect key="frame" x="8" y="75" width="171.5" height="171.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="KBd-bw-o0d">
                                             <rect key="frame" x="0.0" y="0.0" width="171.5" height="171.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
@@ -312,22 +316,23 @@
                                                     </constraints>
                                                 </view>
                                             </subviews>
-                                        </view>
+                                            <constraints>
+                                                <constraint firstAttribute="trailingMargin" secondItem="txM-Li-sfT" secondAttribute="trailing" constant="8" id="0o1-Jh-2UP"/>
+                                                <constraint firstAttribute="bottom" secondItem="txM-Li-sfT" secondAttribute="bottom" constant="8" id="1B7-kE-gGL"/>
+                                                <constraint firstAttribute="trailing" secondItem="LWE-K9-3KE" secondAttribute="trailing" constant="32" id="EeP-kx-rcT"/>
+                                                <constraint firstItem="txM-Li-sfT" firstAttribute="top" secondItem="LWE-K9-3KE" secondAttribute="bottom" constant="8" id="VYs-1r-NdS"/>
+                                                <constraint firstItem="LWE-K9-3KE" firstAttribute="leading" secondItem="KBd-bw-o0d" secondAttribute="leading" constant="32" id="ZbF-02-Mdy"/>
+                                                <constraint firstItem="LWE-K9-3KE" firstAttribute="top" secondItem="KBd-bw-o0d" secondAttribute="top" constant="8" id="ntW-eG-RII"/>
+                                                <constraint firstItem="txM-Li-sfT" firstAttribute="leading" secondItem="KBd-bw-o0d" secondAttribute="leadingMargin" constant="8" id="sWv-pt-6uX"/>
+                                            </constraints>
+                                        </collectionViewCellContentView>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstAttribute="trailingMargin" secondItem="txM-Li-sfT" secondAttribute="trailing" constant="8" id="0o1-Jh-2UP"/>
-                                            <constraint firstAttribute="bottom" secondItem="txM-Li-sfT" secondAttribute="bottom" constant="8" id="1B7-kE-gGL"/>
-                                            <constraint firstAttribute="trailing" secondItem="LWE-K9-3KE" secondAttribute="trailing" constant="32" id="EeP-kx-rcT"/>
-                                            <constraint firstItem="txM-Li-sfT" firstAttribute="top" secondItem="LWE-K9-3KE" secondAttribute="bottom" constant="8" id="VYs-1r-NdS"/>
-                                            <constraint firstItem="LWE-K9-3KE" firstAttribute="leading" secondItem="6NX-d0-C7o" secondAttribute="leading" constant="32" id="ZbF-02-Mdy"/>
-                                            <constraint firstItem="LWE-K9-3KE" firstAttribute="top" secondItem="6NX-d0-C7o" secondAttribute="top" constant="8" id="ntW-eG-RII"/>
-                                            <constraint firstItem="txM-Li-sfT" firstAttribute="leading" secondItem="6NX-d0-C7o" secondAttribute="leadingMargin" constant="8" id="sWv-pt-6uX"/>
-                                        </constraints>
                                         <size key="customSize" width="171.5" height="171.5"/>
                                         <connections>
                                             <outlet property="backView" destination="LWE-K9-3KE" id="YnX-lh-vf5"/>
                                             <outlet property="criticsImage" destination="ZTF-DW-6fY" id="Zl2-vs-USP"/>
                                             <outlet property="nameLabel" destination="txM-Li-sfT" id="dxh-K8-NfJ"/>
+                                            <segue destination="v2e-r6-rIf" kind="presentation" identifier="CriticsDescription" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="5TU-01-zNh"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -351,6 +356,7 @@
                                                     <connections>
                                                         <action selector="searchDidEndEdit:" destination="JoY-8E-aev" eventType="valueChanged" id="9vv-i7-0G5"/>
                                                         <action selector="searchDidEndEdit:" destination="JoY-8E-aev" eventType="editingDidEnd" id="auw-Sf-2Pd"/>
+                                                        <outlet property="delegate" destination="JoY-8E-aev" id="1e5-Np-pQE"/>
                                                     </connections>
                                                 </textField>
                                             </subviews>
@@ -366,8 +372,9 @@
                                     </connections>
                                 </collectionReusableView>
                                 <connections>
-                                    <outlet property="dataSource" destination="R1V-HW-cVf" id="LGa-6v-NzJ"/>
-                                    <outlet property="delegate" destination="R1V-HW-cVf" id="C4T-H3-1hN"/>
+                                    <outlet property="dataSource" destination="R1V-HW-cVf" id="J1s-s7-XQg"/>
+                                    <outlet property="delegate" destination="R1V-HW-cVf" id="Zna-fy-qhR"/>
+                                    <outlet property="prefetchDataSource" destination="R1V-HW-cVf" id="PQO-AE-2qI"/>
                                 </connections>
                             </collectionView>
                         </subviews>
@@ -391,11 +398,257 @@
                     <navigationItem key="navigationItem" id="QCv-ck-3vE"/>
                     <connections>
                         <outlet property="criticsCollectionView" destination="X5p-i3-uud" id="IIL-x0-3c5"/>
+                        <outlet property="criticsSegmentedControl" destination="d1C-aY-8zF" id="B6f-tT-ddl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gCz-t1-66o" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1021.6" y="136.69950738916256"/>
         </scene>
+        <!--Critics Description View Controller-->
+        <scene sceneID="o6J-dP-oih">
+            <objects>
+                <viewController storyboardIdentifier="CriticsDescriptionViewController" id="v2e-r6-rIf" customClass="CriticsDescriptionViewController" customModule="LetMeCode" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="exU-VO-Upb">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cig-JD-cek">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                <color key="backgroundColor" red="0.69335238249999998" green="0.90940259830000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TU2-Uh-H1j">
+                                <rect key="frame" x="0.0" y="44" width="375" height="61.333333333333343"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="A. O. Scott" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="waa-j1-P8L">
+                                        <rect key="frame" x="126.66666666666669" y="15.666666666666664" width="122" height="30"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jfD-JL-IsH">
+                                        <rect key="frame" x="8" y="8" width="45.333333333333336" height="45.333333333333336"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="jfD-JL-IsH" secondAttribute="height" id="hqB-or-ODI"/>
+                                        </constraints>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" image="chevron.left" catalog="system">
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="font" weight="bold">
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="25"/>
+                                            </preferredSymbolConfiguration>
+                                        </state>
+                                        <connections>
+                                            <action selector="backBatton:" destination="v2e-r6-rIf" eventType="touchUpInside" id="2kc-FH-Gt4"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.69335238249999998" green="0.90940259830000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstItem="jfD-JL-IsH" firstAttribute="top" secondItem="TU2-Uh-H1j" secondAttribute="top" constant="8" id="A3q-iI-xMH"/>
+                                    <constraint firstAttribute="bottom" secondItem="jfD-JL-IsH" secondAttribute="bottom" constant="8" id="evA-yN-RHx"/>
+                                    <constraint firstItem="waa-j1-P8L" firstAttribute="centerX" secondItem="TU2-Uh-H1j" secondAttribute="centerX" id="fIA-bW-lub"/>
+                                    <constraint firstItem="jfD-JL-IsH" firstAttribute="leading" secondItem="TU2-Uh-H1j" secondAttribute="leading" constant="8" id="ilr-06-wzi"/>
+                                    <constraint firstItem="waa-j1-P8L" firstAttribute="top" secondItem="TU2-Uh-H1j" secondAttribute="top" constant="15.666666666666664" id="isH-Nw-UGZ"/>
+                                    <constraint firstItem="waa-j1-P8L" firstAttribute="centerY" secondItem="TU2-Uh-H1j" secondAttribute="centerY" id="tI6-Tc-3ed"/>
+                                </constraints>
+                            </view>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" contentInsetAdjustmentBehavior="always" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="WxT-RE-TxF">
+                                <rect key="frame" x="0.0" y="105.33333333333331" width="375" height="672.66666666666674"/>
+                                <color key="backgroundColor" systemColor="systemGroupedBackgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" sectionInsetReference="safeArea" id="RIz-EW-jFH">
+                                    <size key="itemSize" width="359" height="158"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="8" minY="0.0" maxX="8" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CriticsDescriptionCell" id="bmN-7D-phJ" customClass="CriticsDescriptionCollectionViewCell" customModule="LetMeCode" customModuleProvider="target">
+                                        <rect key="frame" x="8" y="0.0" width="359" height="276"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                            <rect key="frame" x="0.0" y="0.0" width="359" height="276"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="A. O. Scott" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bVo-Yy-rrH">
+                                                    <rect key="frame" x="142.33333333333337" y="8" width="208.66666666666663" height="82.666666666666671"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qd3-PZ-5jx">
+                                                    <rect key="frame" x="8" y="134.33333333333337" width="343" height="133.66666666666663"/>
+                                                    <string key="text">A. O. Scott joined The New York Times as a film critic in January 2000, and was named a chief critic in 2004. Previously, Mr. Scott had been the lead Sunday book reviewer for Newsday and a frequent contributor to Slate, The New York Review of Books, and many other publications. \n&lt;br/&gt;&lt;br/&gt;\nIn the 1990s he served on the editorial staffs of Lingua Franca and The New York Review of Books. He also edited \"A Bolt from the Blue and Other Essays,\" a collection by Mary McCarthy, which was published by The New York Review of Books in 2002. \n&lt;br/&gt;&lt;br/&gt;\nMr. Scott was a finalist for the Pulitzer Prize in Criticism in 2010, the same year he served as co-host (with Michael Phillips of the Chicago Tribune) on the last season of \"At the Movies,\" the syndicated film-reviewing program started by Roger Ebert and Gene Siskel.\n&lt;br/&gt;&lt;br/&gt;\nA frequent presence on radio and television, Mr. Scott is Distinguished Professor of Film Criticism at Wesleyan University and the author of Better Living Through Criticism, forthcoming in 2016 from The Penguin Press. A collection of his film writing will be published by Penguin in 2017. \n&lt;br/&gt;&lt;br/&gt;\nHe lives in Brooklyn with his family.</string>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                    <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jNX-OD-Cwv">
+                                                    <rect key="frame" x="7.9999999999999929" y="7.9999999999999929" width="118.33333333333331" height="118.33333333333331"/>
+                                                    <subviews>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="48S-Zz-VES">
+                                                            <rect key="frame" x="0.0" y="0.0" width="118.33333333333333" height="118.33333333333333"/>
+                                                            <color key="tintColor" red="0.69335238249999998" green="0.90940259830000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                        </imageView>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstAttribute="trailing" secondItem="48S-Zz-VES" secondAttribute="trailing" id="Fyn-sE-thE"/>
+                                                        <constraint firstItem="48S-Zz-VES" firstAttribute="top" secondItem="jNX-OD-Cwv" secondAttribute="top" id="Xex-qH-Mro"/>
+                                                        <constraint firstItem="48S-Zz-VES" firstAttribute="leading" secondItem="jNX-OD-Cwv" secondAttribute="leading" id="ecL-JM-edQ"/>
+                                                        <constraint firstAttribute="bottom" secondItem="48S-Zz-VES" secondAttribute="bottom" id="fGd-Tb-MWg"/>
+                                                        <constraint firstAttribute="width" secondItem="jNX-OD-Cwv" secondAttribute="height" id="ljw-au-j4B"/>
+                                                    </constraints>
+                                                </view>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="full-time" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MDO-57-T8c">
+                                                    <rect key="frame" x="142.33333333333334" y="98.666666666666671" width="118.66666666666666" height="23.666666666666671"/>
+                                                    <color key="backgroundColor" red="0.69335238249999998" green="0.90940259830000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </view>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="bVo-Yy-rrH" firstAttribute="leading" secondItem="jNX-OD-Cwv" secondAttribute="trailing" constant="16" id="2su-Ky-5RS"/>
+                                            <constraint firstItem="qd3-PZ-5jx" firstAttribute="leading" secondItem="bmN-7D-phJ" secondAttribute="leading" constant="8" id="5xL-1f-ZUW"/>
+                                            <constraint firstItem="MDO-57-T8c" firstAttribute="leading" secondItem="48S-Zz-VES" secondAttribute="trailing" constant="16" id="IBK-Ye-OUQ"/>
+                                            <constraint firstAttribute="trailing" secondItem="bVo-Yy-rrH" secondAttribute="trailing" constant="8" id="OgM-pZ-eEp"/>
+                                            <constraint firstItem="qd3-PZ-5jx" firstAttribute="top" secondItem="48S-Zz-VES" secondAttribute="bottom" constant="8" id="TXy-NE-p2b"/>
+                                            <constraint firstItem="jNX-OD-Cwv" firstAttribute="leading" secondItem="bmN-7D-phJ" secondAttribute="leading" constant="8" id="V4Z-NL-w2G"/>
+                                            <constraint firstItem="bVo-Yy-rrH" firstAttribute="top" secondItem="bmN-7D-phJ" secondAttribute="top" constant="8" id="VOt-FM-EP1"/>
+                                            <constraint firstAttribute="trailing" secondItem="qd3-PZ-5jx" secondAttribute="trailing" constant="8" id="Wnl-Rf-bXw"/>
+                                            <constraint firstAttribute="bottom" secondItem="qd3-PZ-5jx" secondAttribute="bottom" constant="8" id="X8V-g9-uB0"/>
+                                            <constraint firstItem="MDO-57-T8c" firstAttribute="width" secondItem="bmN-7D-phJ" secondAttribute="width" multiplier="0.33" id="Z7t-x7-yHZ"/>
+                                            <constraint firstItem="jNX-OD-Cwv" firstAttribute="top" secondItem="bmN-7D-phJ" secondAttribute="top" constant="8" id="aLG-rb-1DU"/>
+                                            <constraint firstItem="qd3-PZ-5jx" firstAttribute="top" secondItem="MDO-57-T8c" secondAttribute="bottom" constant="12" id="cPJ-yO-Dsi"/>
+                                            <constraint firstItem="MDO-57-T8c" firstAttribute="height" secondItem="48S-Zz-VES" secondAttribute="height" multiplier="0.2" id="cUT-vU-LjG"/>
+                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="MDO-57-T8c" secondAttribute="trailing" constant="8" id="drx-GV-2QH"/>
+                                            <constraint firstItem="MDO-57-T8c" firstAttribute="top" secondItem="bVo-Yy-rrH" secondAttribute="bottom" constant="8" id="kuU-aA-ASe"/>
+                                            <constraint firstItem="48S-Zz-VES" firstAttribute="width" secondItem="bmN-7D-phJ" secondAttribute="width" multiplier="0.33" id="wfg-OT-NZb"/>
+                                        </constraints>
+                                        <size key="customSize" width="359" height="276"/>
+                                        <connections>
+                                            <outlet property="backView" destination="jNX-OD-Cwv" id="Kw6-XQ-eJn"/>
+                                            <outlet property="criticsBioLabel" destination="qd3-PZ-5jx" id="1Kd-yj-Z2T"/>
+                                            <outlet property="criticsImageView" destination="48S-Zz-VES" id="khw-qa-Kpr"/>
+                                            <outlet property="criticsNameLabel" destination="bVo-Yy-rrH" id="bTu-bf-gg3"/>
+                                            <outlet property="criticsStatusLabel" destination="MDO-57-T8c" id="k1h-vy-XWb"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CriticsReviewesCell" id="jZG-xJ-vdP" customClass="CriticsReviewesCollectionViewCell" customModule="LetMeCode" customModuleProvider="target">
+                                        <rect key="frame" x="8" y="286" width="359" height="158"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                            <rect key="frame" x="0.0" y="0.0" width="359" height="158"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Soufra" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tXH-Xo-bL1">
+                                                    <rect key="frame" x="122.66666666666667" y="8" width="228.33333333333331" height="23"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="249" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" text="ANDY WEBSTER" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eew-7U-zzp">
+                                                    <rect key="frame" x="122.66666666666667" y="111.66666666666667" width="228.33333333333331" height="17.000000000000014"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2017-12-22 17:44:01" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YrJ-o3-6Rm">
+                                                    <rect key="frame" x="122.66666666666667" y="136.66666666666666" width="228.33333333333331" height="13.333333333333343"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                    <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o06-Bf-PzF">
+                                                    <rect key="frame" x="122.66666666666667" y="39" width="228.33333333333331" height="52.666666666666657"/>
+                                                    <string key="text">This documentary from Thomas Morgan, about a female entrepreneur establishing a business just south of Beirut, is a stirring tale of empowerment.</string>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                    <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F5b-jw-sDi">
+                                                    <rect key="frame" x="8" y="8" width="106.66666666666667" height="142"/>
+                                                    <subviews>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="LlY-Nb-OKw">
+                                                            <rect key="frame" x="0.0" y="0.0" width="106.66666666666667" height="142"/>
+                                                            <color key="tintColor" red="0.69335238249999998" green="0.90940259830000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                        </imageView>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstAttribute="trailing" secondItem="LlY-Nb-OKw" secondAttribute="trailing" id="HRT-x5-YTZ"/>
+                                                        <constraint firstItem="LlY-Nb-OKw" firstAttribute="top" secondItem="F5b-jw-sDi" secondAttribute="top" id="XMm-Kv-dMh"/>
+                                                        <constraint firstItem="LlY-Nb-OKw" firstAttribute="leading" secondItem="F5b-jw-sDi" secondAttribute="leading" id="h8k-LP-TYN"/>
+                                                        <constraint firstAttribute="width" secondItem="F5b-jw-sDi" secondAttribute="height" multiplier="3:4" id="krd-c6-7PW"/>
+                                                        <constraint firstAttribute="bottom" secondItem="LlY-Nb-OKw" secondAttribute="bottom" id="xCb-P5-g3Q"/>
+                                                    </constraints>
+                                                </view>
+                                            </subviews>
+                                        </view>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="o06-Bf-PzF" secondAttribute="trailing" constant="8" id="6dT-2j-808"/>
+                                            <constraint firstItem="F5b-jw-sDi" firstAttribute="top" secondItem="jZG-xJ-vdP" secondAttribute="top" constant="8" id="7tt-2p-nax"/>
+                                            <constraint firstAttribute="trailing" secondItem="YrJ-o3-6Rm" secondAttribute="trailing" constant="8" id="8vb-SW-3NV"/>
+                                            <constraint firstItem="F5b-jw-sDi" firstAttribute="leading" secondItem="jZG-xJ-vdP" secondAttribute="leading" constant="8" id="HkF-fc-PRy"/>
+                                            <constraint firstAttribute="bottom" secondItem="F5b-jw-sDi" secondAttribute="bottom" constant="8" id="HtB-Re-x42"/>
+                                            <constraint firstItem="eew-7U-zzp" firstAttribute="top" relation="greaterThanOrEqual" secondItem="o06-Bf-PzF" secondAttribute="bottom" constant="8" id="Ist-xG-Bvd"/>
+                                            <constraint firstItem="tXH-Xo-bL1" firstAttribute="leading" secondItem="F5b-jw-sDi" secondAttribute="trailing" constant="8" id="Jgp-68-9pf"/>
+                                            <constraint firstItem="YrJ-o3-6Rm" firstAttribute="top" secondItem="eew-7U-zzp" secondAttribute="bottom" constant="8" id="MJ1-1c-uAv"/>
+                                            <constraint firstItem="tXH-Xo-bL1" firstAttribute="top" secondItem="jZG-xJ-vdP" secondAttribute="top" constant="8" id="PBs-B2-wYn"/>
+                                            <constraint firstAttribute="trailing" secondItem="tXH-Xo-bL1" secondAttribute="trailing" constant="8" id="cRS-hU-PDP"/>
+                                            <constraint firstAttribute="bottom" secondItem="YrJ-o3-6Rm" secondAttribute="bottom" constant="8" id="fKP-lz-D5V"/>
+                                            <constraint firstItem="eew-7U-zzp" firstAttribute="leading" secondItem="o06-Bf-PzF" secondAttribute="leading" id="fpJ-Ku-hYe"/>
+                                            <constraint firstItem="o06-Bf-PzF" firstAttribute="top" secondItem="tXH-Xo-bL1" secondAttribute="bottom" constant="8" id="jbc-MI-YN2"/>
+                                            <constraint firstItem="YrJ-o3-6Rm" firstAttribute="leading" secondItem="eew-7U-zzp" secondAttribute="leading" id="nff-d7-jSa"/>
+                                            <constraint firstAttribute="trailing" secondItem="eew-7U-zzp" secondAttribute="trailing" constant="8" id="tA2-LN-qi8"/>
+                                            <constraint firstItem="o06-Bf-PzF" firstAttribute="leading" secondItem="tXH-Xo-bL1" secondAttribute="leading" id="y6z-09-N4F"/>
+                                        </constraints>
+                                        <size key="customSize" width="359" height="158"/>
+                                        <connections>
+                                            <outlet property="backView" destination="F5b-jw-sDi" id="oeS-2A-CHE"/>
+                                            <outlet property="bylineLabel" destination="eew-7U-zzp" id="Xq5-st-Wgb"/>
+                                            <outlet property="descriptionLabel" destination="o06-Bf-PzF" id="Jng-KA-hFO"/>
+                                            <outlet property="openingDateLabel" destination="YrJ-o3-6Rm" id="ikZ-17-bf5"/>
+                                            <outlet property="reviewesImage" destination="LlY-Nb-OKw" id="ciJ-Px-hHL"/>
+                                            <outlet property="titleLabel" destination="tXH-Xo-bL1" id="zmA-Pp-ygP"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="v2e-r6-rIf" id="8OC-47-HO6"/>
+                                    <outlet property="delegate" destination="v2e-r6-rIf" id="Ski-TC-Lmw"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.92643344760000002" green="0.92994766829999997" blue="0.96013115360000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <constraints>
+                            <constraint firstItem="Cig-JD-cek" firstAttribute="top" secondItem="exU-VO-Upb" secondAttribute="top" id="CnU-Eh-kya"/>
+                            <constraint firstItem="AXv-W4-aiy" firstAttribute="bottom" secondItem="WxT-RE-TxF" secondAttribute="bottom" id="EAL-Eg-VHl"/>
+                            <constraint firstItem="TU2-Uh-H1j" firstAttribute="leading" secondItem="AXv-W4-aiy" secondAttribute="leading" id="FZO-9q-NMd"/>
+                            <constraint firstItem="WxT-RE-TxF" firstAttribute="leading" secondItem="AXv-W4-aiy" secondAttribute="leading" id="JZf-6L-SDe"/>
+                            <constraint firstItem="TU2-Uh-H1j" firstAttribute="top" secondItem="AXv-W4-aiy" secondAttribute="top" id="SQC-L9-rah"/>
+                            <constraint firstItem="Cig-JD-cek" firstAttribute="leading" secondItem="exU-VO-Upb" secondAttribute="leading" id="T6L-8S-nTn"/>
+                            <constraint firstItem="AXv-W4-aiy" firstAttribute="trailing" secondItem="TU2-Uh-H1j" secondAttribute="trailing" id="Ww5-HG-sOr"/>
+                            <constraint firstItem="WxT-RE-TxF" firstAttribute="top" secondItem="TU2-Uh-H1j" secondAttribute="bottom" id="jMR-4c-6w6"/>
+                            <constraint firstItem="Cig-JD-cek" firstAttribute="bottom" secondItem="TU2-Uh-H1j" secondAttribute="top" id="k2d-S0-5Mt"/>
+                            <constraint firstAttribute="trailing" secondItem="Cig-JD-cek" secondAttribute="trailing" id="lmB-RG-ucu"/>
+                            <constraint firstItem="AXv-W4-aiy" firstAttribute="trailing" secondItem="WxT-RE-TxF" secondAttribute="trailing" id="otN-LD-57T"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="AXv-W4-aiy"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="AFt-i5-NH8"/>
+                    <connections>
+                        <outlet property="criticsDescriptionCollectionView" destination="WxT-RE-TxF" id="aPT-cq-UMi"/>
+                        <outlet property="titleLabel" destination="waa-j1-P8L" id="z54-kh-SOY"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iCD-YE-bAc" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1912.8" y="136.69950738916256"/>
+        </scene>
     </scenes>
+    <resources>
+        <image name="chevron.left" catalog="system" width="96" height="128"/>
+    </resources>
 </document>

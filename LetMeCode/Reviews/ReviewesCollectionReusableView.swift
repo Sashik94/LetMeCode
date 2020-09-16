@@ -12,7 +12,7 @@ protocol ReviewesReusableViewDelegate {
     func reloadCollectionView(query: String, openingDate: String)
 }
 
-class ReviewesCollectionReusableView: UICollectionReusableView {
+class ReviewesCollectionReusableView: UICollectionReusableView, UITextFieldDelegate {
     
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var filterTextField: UITextField!
@@ -23,6 +23,15 @@ class ReviewesCollectionReusableView: UICollectionReusableView {
 //    let toolBar = UIToolbar()
     
     @IBAction func searchDidEndEdit(_ sender: UITextField) {
+        search()
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        search()
+        return false
+    }
+    
+    func search() {
         delegate?.reloadCollectionView(query: searchTextField.text ?? "", openingDate: filterTextField.text ?? "0001-01-01")
     }
     

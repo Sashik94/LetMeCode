@@ -11,12 +11,15 @@ import UIKit
 class ReviewesViewController: UIViewController{
 
     @IBOutlet weak var reviewesCollectionView: UICollectionView!
+    @IBOutlet weak var reviewesSegmentedControl: UISegmentedControl!
     
+    var criticsVC: CriticsViewController?
     let networking = Networking()
     var reviewesResults: [ReviewesResults] = []
     var query = ""
     var openingDate = "0001-01-01"
     var offset = 0
+    let imageCache = NSCache<NSString, UIImage>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +30,7 @@ class ReviewesViewController: UIViewController{
         self.view.addGestureRecognizer(tapGesture)
         
         reviewesCollectionView.refreshControl = myRefreshControl
+        
     }
     
     @objc func tapGestureDone() {
@@ -45,17 +49,34 @@ class ReviewesViewController: UIViewController{
         sender.endRefreshing()
     }
     
+    @IBAction func transitionCriticsVC(_ sender: UISegmentedControl) {
+        if let criticsVC = criticsVC {
+            criticsVC.reviewesVC = self
+            criticsVC.modalPresentationStyle = .fullScreen
+            dismiss(animated: false, completion: nil)
+            present(criticsVC, animated: false)
+            reviewesSegmentedControl.selectedSegmentIndex = 0
+        } else {
+            let criticsVC = storyboard?.instantiateViewController(withIdentifier: "CriticsViewController") as? CriticsViewController
+            criticsVC!.reviewesVC = self
+            criticsVC!.modalPresentationStyle = .fullScreen
+            dismiss(animated: false, completion: nil)
+            present(criticsVC!, animated: false)
+            reviewesSegmentedControl.selectedSegmentIndex = 0
+        }
+    }
+    
 }
 
 extension ReviewesViewController: PresentModelProtocol {
-    func presentModel<T>(response: ResultsType<T>) where T : Decodable {
+    func presentModel<T>(response: ResultsType<T>) {
         switch response {
         case .success(let genericModel):
-            let model = genericModel as! Reviewes
-            for result in model.results {
-                reviewesResults.append(result)
-            }
             DispatchQueue.main.async {
+                let model = genericModel as! Reviewes
+                for result in model.results {
+                    self.reviewesResults.append(result)
+                }
                 self.reviewesCollectionView.reloadData()
             }
             
@@ -89,6 +110,8 @@ extension ReviewesViewController: PresentModelProtocol {
 extension ReviewesViewController: ReviewesReusableViewDelegate {
     func reloadCollectionView(query: String, openingDate: String) {
         reviewesResults.removeAll()
+        self.query = query
+        self.openingDate = openingDate
         networking.fetchTracks(type: .reviews(query: query, openingDate: openingDate, offset: "0"), typeModel: Reviewes.self)
     }
 }
@@ -116,18 +139,36 @@ extension ReviewesViewController: UICollectionViewDelegate, UICollectionViewData
         
         DispatchQueue.global().async {
             if let multimedia = track.multimedia, let imageString = multimedia.src {
-                if let image = try? UIImage(data: Data(contentsOf: URL(string: imageString)!)) {
+                if let cachedImage = self.imageCache.object(forKey: imageString as NSString) {
                     DispatchQueue.main.async {
-                        cell.reviewesImage.image = image
+                        cell.reviewesImage.image = cachedImage
+                        cell.reviewesImage.setShadow(from: cell.backView, cornerRadius: 5)
+                        cell.reviewesImage.setCornerRadius(cornerRadius: 5)
+                    }
+                } else {
+                    if let image = try? UIImage(data: Data(contentsOf: URL(string: imageString)!)) {
+                        self.imageCache.setObject(image, forKey: imageString as NSString)
+                        DispatchQueue.main.async {
+                            cell.reviewesImage.image = image
+                            cell.reviewesImage.setShadow(from: cell.backView, cornerRadius: 5)
+                            cell.reviewesImage.setCornerRadius(cornerRadius: 5)
+                        }
                     }
                 }
+            } else {
+                DispatchQueue.main.async {
+                    cell.reviewesImage.image = nil
+                    cell.reviewesImage.image?.withTintColor(#colorLiteral(red: 0.6308528781, green: 0.9171262383, blue: 1, alpha: 1))
+                    cell.reviewesImage.setShadow(from: cell.backView, cornerRadius: 5, color: #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1))
+                }
             }
+            
         }
         
         cell.titleLabel.text = track.display_title //"Soufra"
         cell.descriptionLabel.text = track.summary_short //"This documentary from Thomas Morgan, about a female entrepreneur establishing a business just south of Beirut, is a stirring tale of empowerment."
         cell.bylineLabel.text = track.byline //"ANDY WEBSTER"
-        cell.openingDateLabel.text = track.opening_date //"2017-12-22 17:44:01"
+        cell.openingDateLabel.text = APIConstants.convertDate(track.opening_date!, format: "yyyy/MM/dd") //"2017-12-22 17:44:01"
         
         return cell
     }
@@ -141,8 +182,7 @@ extension ReviewesViewController: UICollectionViewDelegate, UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         let count = reviewesResults.count
-        print(count)
-        if indexPath.row == (count - 1) {
+        if indexPath.row == (count - 1) && count >= 20 {
             offset += 20
             networking.fetchTracks(type: .reviews(query: query, openingDate: openingDate, offset: String(offset)), typeModel: Reviewes.self)
         }

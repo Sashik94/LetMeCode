@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B3B15CB251255BA00F4EC89 /* CriticsDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3B15CA251255BA00F4EC89 /* CriticsDescriptionViewController.swift */; };
+		3B3B15CD251256B600F4EC89 /* CriticsDescriptionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3B15CC251256B600F4EC89 /* CriticsDescriptionCollectionViewCell.swift */; };
+		3B3B15CF251256D500F4EC89 /* CriticsReviewesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3B15CE251256D500F4EC89 /* CriticsReviewesCollectionViewCell.swift */; };
 		3BF92592250E18BA003ACB2C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF92591250E18BA003ACB2C /* AppDelegate.swift */; };
 		3BF92594250E18BA003ACB2C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF92593250E18BA003ACB2C /* SceneDelegate.swift */; };
 		3BF92596250E18BA003ACB2C /* ReviewesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF92595250E18BA003ACB2C /* ReviewesViewController.swift */; };
@@ -27,6 +30,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3B3B15CA251255BA00F4EC89 /* CriticsDescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CriticsDescriptionViewController.swift; sourceTree = "<group>"; };
+		3B3B15CC251256B600F4EC89 /* CriticsDescriptionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CriticsDescriptionCollectionViewCell.swift; sourceTree = "<group>"; };
+		3B3B15CE251256D500F4EC89 /* CriticsReviewesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CriticsReviewesCollectionViewCell.swift; sourceTree = "<group>"; };
 		3BF9258E250E18BA003ACB2C /* LetMeCode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LetMeCode.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BF92591250E18BA003ACB2C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3BF92593250E18BA003ACB2C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -59,6 +65,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3B3B15C92512555500F4EC89 /* Critics Description */ = {
+			isa = PBXGroup;
+			children = (
+				3B3B15CA251255BA00F4EC89 /* CriticsDescriptionViewController.swift */,
+				3B3B15CC251256B600F4EC89 /* CriticsDescriptionCollectionViewCell.swift */,
+				3B3B15CE251256D500F4EC89 /* CriticsReviewesCollectionViewCell.swift */,
+			);
+			path = "Critics Description";
+			sourceTree = "<group>";
+		};
 		3BF92585250E18BA003ACB2C = {
 			isa = PBXGroup;
 			children = (
@@ -128,6 +144,7 @@
 				3BF925B82511533C003ACB2C /* CriticsViewController.swift */,
 				3BF925BC2511536C003ACB2C /* CriticsCollectionReusableView.swift */,
 				3BF925BA25115353003ACB2C /* CriticsCollectionViewCell.swift */,
+				3B3B15C92512555500F4EC89 /* Critics Description */,
 			);
 			path = Critics;
 			sourceTree = "<group>";
@@ -203,11 +220,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B3B15CF251256D500F4EC89 /* CriticsReviewesCollectionViewCell.swift in Sources */,
 				3BF9259C250E18BA003ACB2C /* LetMeCode.xcdatamodeld in Sources */,
+				3B3B15CD251256B600F4EC89 /* CriticsDescriptionCollectionViewCell.swift in Sources */,
 				3BF925BF251166D2003ACB2C /* UIImageView+Extension.swift in Sources */,
 				3BF925B7250FE4C0003ACB2C /* ReviewesCollectionReusableView.swift in Sources */,
 				3BF925BB25115353003ACB2C /* CriticsCollectionViewCell.swift in Sources */,
 				3BF925B1250F765D003ACB2C /* Critics.swift in Sources */,
+				3B3B15CB251255BA00F4EC89 /* CriticsDescriptionViewController.swift in Sources */,
 				3BF925B92511533C003ACB2C /* CriticsViewController.swift in Sources */,
 				3BF925B5250F9612003ACB2C /* ReviewesCollectionViewCell.swift in Sources */,
 				3BF925AA250E1B8E003ACB2C /* Networking.swift in Sources */,

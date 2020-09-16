@@ -20,8 +20,8 @@ class Networking {
     func fetchTracks<T: Decodable>(type: Endpoint, typeModel: T.Type) {
         
         switch type {
-        case .reviews(let query, let openingDate, let offset):
-            urlString = Endpoint.reviews(query: query, openingDate: openingDate, offset: offset).absoluteURL?.absoluteString ?? ""
+        case .reviews(let reviewer, let query, let openingDate, let offset):
+            urlString = Endpoint.reviews(reviewer: reviewer, query: query, openingDate: openingDate, offset: offset).absoluteURL?.absoluteString ?? ""
         case .critics(let query):
             urlString = Endpoint.critics(query: query).absoluteURL?.absoluteString ?? ""
         }

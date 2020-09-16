@@ -11,7 +11,9 @@ import UIKit
 class CriticsViewController: UIViewController {
     
     @IBOutlet weak var criticsCollectionView: UICollectionView!
+    @IBOutlet weak var criticsSegmentedControl: UISegmentedControl!
     
+    var reviewesVC: ReviewesViewController?
     let networking = Networking()
     var criticsResults: [CriticsResults] = []
     var query = "all"
@@ -20,11 +22,11 @@ class CriticsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         networking.delegate = self
         networking.fetchTracks(type: .critics(query: query), typeModel: Critics.self)
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapGestureDone))
-        self.view.addGestureRecognizer(tapGesture)
+//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapGestureDone))
+//        self.view.addGestureRecognizer(tapGesture)
         
         criticsCollectionView.refreshControl = myRefreshControl
         
@@ -45,18 +47,47 @@ class CriticsViewController: UIViewController {
         networking.fetchTracks(type: .critics(query: query), typeModel: Critics.self)
         sender.endRefreshing()
     }
-
+    
+    @IBAction func transitionReviewesVC(_ sender: UISegmentedControl) {
+        if let reviewesVC = reviewesVC {
+            reviewesVC.criticsVC = self
+            reviewesVC.modalPresentationStyle = .fullScreen
+            dismiss(animated: false, completion: nil)
+            present(reviewesVC, animated: false)
+            criticsSegmentedControl.selectedSegmentIndex = 1
+        } else {
+            let reviewesVC = storyboard?.instantiateViewController(withIdentifier: "ReviewesViewController") as? ReviewesViewController
+            reviewesVC!.criticsVC = self
+            reviewesVC!.modalPresentationStyle = .fullScreen
+            dismiss(animated: false, completion: nil)
+            present(reviewesVC!, animated: false)
+            criticsSegmentedControl.selectedSegmentIndex = 1
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let collectionViewCell = sender as! UICollectionViewCell
+        let indexPath = criticsCollectionView.indexPath(for: collectionViewCell)!
+        
+        let track = criticsResults[indexPath.row]
+        
+        if segue.identifier == "CriticsDescription" {
+            let CDVC = segue.destination as! CriticsDescriptionViewController
+            CDVC.critics = track
+        }
+    }
+    
 }
 
 extension CriticsViewController: PresentModelProtocol {
-    func presentModel<T>(response: ResultsType<T>) where T : Decodable {
+    func presentModel<T>(response: ResultsType<T>) {
         switch response {
         case .success(let genericModel):
-            let model = genericModel as! Critics
-            for result in model.results {
-                criticsResults.append(result)
-            }
             DispatchQueue.main.async {
+                let model = genericModel as! Critics
+                for result in model.results {
+                    self.criticsResults.append(result)
+                }
                 self.criticsCollectionView.reloadData()
             }
             
@@ -88,6 +119,7 @@ extension CriticsViewController: PresentModelProtocol {
 extension CriticsViewController: CriticsReusableViewDelegate {
     func reloadCollectionView(query: String) {
         criticsResults.removeAll()
+        self.query = query
         networking.fetchTracks(type: .critics(query: query), typeModel: Critics.self)
     }
 }
@@ -150,14 +182,5 @@ extension CriticsViewController: UICollectionViewDelegate, UICollectionViewDataS
         let w = (collectionView.bounds.width / 2) - 16
         return CGSize(width: w, height: w)
     }
-    
-//    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-//        let count = criticsResults.count
-//        print(count)
-//        if indexPath.row == (count - 1) {
-//            offset += 20
-//            networking.fetchTracks(type: .critics(query: query), typeModel: Critics.self)
-//        }
-//    }
     
 }
